@@ -1,11 +1,15 @@
-FROM node:alpine
+FROM node:14-alpine
 
-WORKDIR /usr/src/app
+RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 
-COPY package* ./
+WORKDIR /home/node/app
 
-RUN npm ci
+COPY package*.json ./
 
-COPY . .
+USER node
 
-CMD ["npm", "start"]
+RUN npm install
+
+COPY --chown=node:node . .
+
+CMD [ "node", "index.js" ]

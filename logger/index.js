@@ -1,8 +1,19 @@
+const express = require("express");
 const { v4: uuidv4 } = require("uuid");
-
+const app = express();
+const PORT = 3001;
 const randomString = uuidv4();
 
-const output = setInterval(() => {
+
+app.get("/", async (request, response) => {
   const date = new Date;
-  console.log(`${date.toISOString()} : ${randomString}`);
-}, 5000);
+  const log = `${date.toISOString()} : ${randomString}`
+
+  response.set('Content-Type', 'text/html');
+  response.send(log);
+});
+
+
+app.listen(PORT, () => {
+  console.log(`Server started in port ${PORT}`);
+});
